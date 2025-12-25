@@ -38,7 +38,7 @@ export class VisualizationComponent implements IVisualizationComponent {
     }
   }
 
-  async generateReport(reportType: string, filters: Record<string, unknown>, format: string): Promise<Buffer> {
+  async generateReport(reportType: string, filters: Record<string, unknown>, format: string): Promise<string> {
     try {
       this.logger.info('Generating report', { reportType, format });
 
@@ -59,8 +59,7 @@ export class VisualizationComponent implements IVisualizationComponent {
         },
       };
 
-      const jsonString = JSON.stringify(reportContent, null, 2);
-      return Buffer.from(jsonString);
+      return JSON.stringify(reportContent, null, 2);
     } catch (error) {
       this.logger.error('Report generation failed', error as Error);
       throw error;

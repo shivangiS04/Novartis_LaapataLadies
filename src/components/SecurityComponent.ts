@@ -2,9 +2,9 @@
  * Security and Access Control Component
  */
 
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 import { ISecurityComponent, ILogger } from '../interfaces/components';
-import { User, UserRole, Permission, AuditLog } from '../types/index';
+import { User, UserRole, AuditLog } from '../types/index';
 import { createLogger } from '../utils/logger';
 import { UnauthorizedError, ForbiddenError, EncryptionError } from '../utils/errors';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,12 +13,10 @@ export class SecurityComponent implements ISecurityComponent {
   private logger: ILogger;
   private users: Map<string, User> = new Map();
   private auditLogs: AuditLog[] = [];
-  private encryptionKey: string;
   private rolePermissions: Map<UserRole, Set<string>> = new Map();
 
   constructor(encryptionKey: string) {
     this.logger = createLogger('SecurityComponent');
-    this.encryptionKey = encryptionKey;
     this.initializeRolePermissions();
   }
 
@@ -67,7 +65,6 @@ export class SecurityComponent implements ISecurityComponent {
       throw new UnauthorizedError('User not found');
     }
 
-    const permission = `${resource}:${action}`;
     const hasPermission = user.permissions.some((p) => p.resource === resource && p.action === action && p.granted);
 
     if (!hasPermission) {
@@ -100,7 +97,8 @@ export class SecurityComponent implements ISecurityComponent {
     try {
       const jsonString = JSON.stringify(data);
       const iv = crypto.randomBytes(16);
-      const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(encryptionKey.padEnd(32, '0').slice(0, 32)), iv);
+      const key = Buffer.from(encryptionKey.padEnd(32, '0').slice(0, 32));
+      const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
 
       let encrypted = cipher.update(jsonString, 'utf8', 'hex');
       encrypted += cipher.final('hex');

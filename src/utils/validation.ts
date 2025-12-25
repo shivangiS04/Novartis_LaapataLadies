@@ -94,7 +94,7 @@ export class SchemaValidator {
           errors.push(...this.validateNumber(fieldName, value as number, schema));
           break;
         case 'date':
-          errors.push(...this.validateDate(fieldName, value as Date, schema));
+          errors.push(...this.validateDate(fieldName, value as Date));
           break;
         case 'array':
           errors.push(...this.validateArray(fieldName, value as unknown[], schema));
@@ -169,7 +169,7 @@ export class SchemaValidator {
     return errors;
   }
 
-  private validateDate(fieldName: string, value: Date, schema: SchemaField): ValidationError[] {
+  private validateDate(fieldName: string, value: Date): ValidationError[] {
     const errors: ValidationError[] = [];
 
     if (!(value instanceof Date) || isNaN(value.getTime())) {

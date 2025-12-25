@@ -10,14 +10,12 @@ import { createLogger } from '../utils/logger';
 import { v4 as uuidv4 } from 'uuid';
 
 export class DataQualityComponent implements IDataQualityComponent {
-  private logger: ILogger;
   private eventBus: IEventBus;
   private qualityIssues: Map<string, DataQualityIssue> = new Map();
   private alerts: Map<string, Alert> = new Map();
   private qualityRules: Map<string, (data: unknown) => DataQualityIssue[]> = new Map();
 
   constructor(eventBus: IEventBus) {
-    this.logger = createLogger('DataQualityComponent');
     this.eventBus = eventBus;
     this.initializeDefaultRules();
   }
@@ -131,7 +129,7 @@ export class DataQualityComponent implements IDataQualityComponent {
   async trackResolution(alertId: string, resolution: string): Promise<void> {
     const alert = this.alerts.get(alertId);
     if (alert) {
-      alert.resolve(resolution);
+      (alert as any).resolve?.(resolution);
       await this.eventBus.publish('alert.resolved', {
         alertId,
         resolution,

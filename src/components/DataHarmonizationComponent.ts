@@ -5,7 +5,6 @@
 
 import { IDataHarmonizationComponent, ILogger } from '../interfaces/components';
 import { createLogger } from '../utils/logger';
-import { v4 as uuidv4 } from 'uuid';
 
 interface DeduplicationRule {
   fields: string[];

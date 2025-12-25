@@ -22,13 +22,13 @@ export class AIInsightsComponent implements IAIInsightsComponent {
       const insight = new InsightModel({
         insightId: uuidv4(),
         type: insightType as InsightType,
-        title: this.generateTitle(insightType, context),
-        description: this.generateDescription(insightType, context, data),
+        title: this.generateTitle(insightType),
+        description: this.generateDescription(insightType, context),
         supportingData: data as Record<string, unknown>,
-        confidence: this.calculateConfidence(data, context),
+        confidence: this.calculateConfidence(data),
         impact: this.assessImpact(context),
         urgency: this.assessUrgency(context),
-        recommendedActions: this.generateActions(insightType, context),
+        recommendedActions: this.generateActions(context),
         generatedDate: new Date(),
         generatedBy: 'AIInsightsComponent',
       });
@@ -81,7 +81,7 @@ export class AIInsightsComponent implements IAIInsightsComponent {
     }
   }
 
-  async summarizeIssue(issue: DataQualityIssue | Alert, context: Record<string, unknown>): Promise<string> {
+  async summarizeIssue(issue: DataQualityIssue | Alert): Promise<string> {
     try {
       this.logger.info('Summarizing issue');
 
@@ -102,13 +102,13 @@ export class AIInsightsComponent implements IAIInsightsComponent {
     }
   }
 
-  async rankInsights(insights: Insight[], criteria: Record<string, unknown>): Promise<Insight[]> {
+  async rankInsights(insights: Insight[]): Promise<Insight[]> {
     try {
       this.logger.info('Ranking insights', { count: insights.length });
 
       const ranked = [...insights].sort((a, b) => {
-        const scoreA = a.getPriorityScore();
-        const scoreB = b.getPriorityScore();
+        const scoreA = (a as any).getPriorityScore?.() ?? 0;
+        const scoreB = (b as any).getPriorityScore?.() ?? 0;
         return scoreB - scoreA;
       });
 
@@ -119,7 +119,7 @@ export class AIInsightsComponent implements IAIInsightsComponent {
     }
   }
 
-  private generateTitle(insightType: string, context: Record<string, unknown>): string {
+  private generateTitle(insightType: string): string {
     const titles: Record<string, string> = {
       data_quality: 'Data Quality Issue Detected',
       operational: 'Operational Bottleneck Identified',
@@ -130,7 +130,7 @@ export class AIInsightsComponent implements IAIInsightsComponent {
     return titles[insightType] || 'New Insight Generated';
   }
 
-  private generateDescription(insightType: string, context: Record<string, unknown>, data: unknown): string {
+  private generateDescription(insightType: string, context: Record<string, unknown>): string {
     const descriptions: Record<string, string> = {
       data_quality: `Data quality issues have been detected. ${JSON.stringify(context).substring(0, 100)}...`,
       operational: `Operational inefficiencies identified. ${JSON.stringify(context).substring(0, 100)}...`,
@@ -141,7 +141,7 @@ export class AIInsightsComponent implements IAIInsightsComponent {
     return descriptions[insightType] || 'An insight has been generated based on available data.';
   }
 
-  private calculateConfidence(data: unknown, context: Record<string, unknown>): number {
+  private calculateConfidence(data: unknown): number {
     // Simple confidence calculation based on data completeness
     if (typeof data === 'object' && data !== null) {
       const obj = data as Record<string, unknown>;
@@ -168,7 +168,7 @@ export class AIInsightsComponent implements IAIInsightsComponent {
     return 'high';
   }
 
-  private generateActions(insightType: string, context: Record<string, unknown>): Action[] {
+  private generateActions(context: Record<string, unknown>): Action[] {
     const actions: Action[] = [];
 
     actions.push({
