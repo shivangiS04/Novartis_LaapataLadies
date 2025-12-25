@@ -11,6 +11,11 @@ const AnalyticsEngine_1 = require("./components/AnalyticsEngine");
 const AIInsightsComponent_1 = require("./components/AIInsightsComponent");
 const SecurityComponent_1 = require("./components/SecurityComponent");
 const VisualizationComponent_1 = require("./components/VisualizationComponent");
+const MetricsCalculationEngine_1 = require("./components/MetricsCalculationEngine");
+const LabMetricsComponent_1 = require("./components/LabMetricsComponent");
+const CodingStatusComponent_1 = require("./components/CodingStatusComponent");
+const SAEDashboardComponent_1 = require("./components/SAEDashboardComponent");
+const ReadinessCheckComponent_1 = require("./components/ReadinessCheckComponent");
 const EventBus_1 = require("./services/EventBus");
 const logger_1 = require("./utils/logger");
 const logger = (0, logger_1.createLogger)('Application');
@@ -28,6 +33,11 @@ async function main() {
         const aiComponent = new AIInsightsComponent_1.AIInsightsComponent();
         const securityComponent = new SecurityComponent_1.SecurityComponent(encryptionKey);
         const visualizationComponent = new VisualizationComponent_1.VisualizationComponent();
+        const metricsEngine = new MetricsCalculationEngine_1.MetricsCalculationEngine();
+        const labMetricsComponent = new LabMetricsComponent_1.LabMetricsComponent();
+        const codingStatusComponent = new CodingStatusComponent_1.CodingStatusComponent();
+        const saeComponent = new SAEDashboardComponent_1.SAEDashboardComponent();
+        const readinessComponent = new ReadinessCheckComponent_1.ReadinessCheckComponent();
         logger.info('All components initialized successfully');
         logger.info('System ready for data ingestion and processing');
         // Example: Register a data source
