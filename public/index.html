@@ -354,6 +354,212 @@
             border: 1px solid rgba(255, 140, 0, 0.2);
         }
 
+        .site-leaderboard {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .site-item {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 140, 0, 0.05));
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #FF8C00;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-item:hover {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.2), rgba(255, 140, 0, 0.1));
+            transform: translateX(5px);
+        }
+
+        .site-rank {
+            font-size: 1.5rem;
+            font-weight: 900;
+            font-style: italic;
+            color: #FF8C00;
+            margin-right: 15px;
+        }
+
+        .site-info {
+            flex-grow: 1;
+        }
+
+        .site-name {
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .site-stats {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+
+        .site-score {
+            font-size: 1.2rem;
+            font-weight: 900;
+            font-style: italic;
+            color: #FF8C00;
+        }
+
+        .issues-chart {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .issue-category {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 140, 0, 0.05));
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .issue-category:hover {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.2), rgba(255, 140, 0, 0.1));
+            transform: scale(1.05);
+        }
+
+        .issue-count {
+            font-size: 2rem;
+            font-weight: 900;
+            font-style: italic;
+            color: #FF8C00;
+            margin-bottom: 5px;
+        }
+
+        .issue-label {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+
+        .explain-btn {
+            background: linear-gradient(45deg, #FF8C00, #FF6B00);
+            color: #000000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .explain-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid #FF8C00;
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #FF8C00;
+            padding-bottom: 15px;
+        }
+
+        .modal-title {
+            color: #FF8C00;
+            font-size: 1.8rem;
+            font-weight: 900;
+            font-style: italic;
+        }
+
+        .close {
+            color: #FF8C00;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ffffff;
+            transform: scale(1.2);
+        }
+
+        .criteria-item {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 140, 0, 0.05));
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #FF8C00;
+        }
+
+        .criteria-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .criteria-name {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .criteria-score {
+            font-weight: 900;
+            font-style: italic;
+            color: #FF8C00;
+            font-size: 1.2rem;
+        }
+
+        .criteria-description {
+            color: #cccccc;
+            margin-bottom: 10px;
+        }
+
+        .criteria-progress {
+            width: 100%;
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .criteria-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF8C00, #FF6B00);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
         @media (max-width: 768px) {
             .dashboard {
                 grid-template-columns: 1fr;
@@ -459,6 +665,32 @@
 
     <div class="timestamp" id="timestamp"></div>
 
+    <!-- DQI Explanation Modal -->
+    <div id="dqiModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Data Quality Index (DQI) Explanation</h2>
+                <span class="close" onclick="closeDQIModal()">&times;</span>
+            </div>
+            <div id="dqiContent">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Readiness Explanation Modal -->
+    <div id="readinessModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Interim Analysis Readiness Explanation</h2>
+                <span class="close" onclick="closeReadinessModal()">&times;</span>
+            </div>
+            <div id="readinessContent">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
     <script>
         // Create floating particles
         function createParticles() {
@@ -491,6 +723,10 @@
                 
                 const data = await response.json();
                 
+                console.log('Dashboard data received:', data);
+                console.log('Sites data:', data.sites);
+                console.log('Sites length:', data.sites ? data.sites.length : 'undefined');
+                
                 dashboard.innerHTML = `
                     <div class="card">
                         <h2><i class="fas fa-chart-pie"></i> Trial Overview</h2>
@@ -507,11 +743,63 @@
                             <span class="metric-value">${data.trial.totalSites}</span>
                         </div>
                         <div class="metric">
-                            <span class="metric-label"><i class="fas fa-star"></i> Data Quality Index</span>
+                            <span class="metric-label">
+                                <i class="fas fa-star"></i> Data Quality Index
+                                <button class="explain-btn" onclick="showDQIExplanation()">
+                                    <i class="fas fa-question-circle"></i> Explain
+                                </button>
+                            </span>
                             <span class="metric-value">${data.trial.overallDataQualityIndex}%</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${data.trial.overallDataQualityIndex}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2><i class="fas fa-trophy"></i> Site Leaderboard</h2>
+                        <div class="site-leaderboard">
+                            ${data.sites && data.sites.length > 0 ? data.sites.slice(0, 8).map((site, index) => `
+                                <div class="site-item">
+                                    <div class="site-rank">#${index + 1}</div>
+                                    <div class="site-info">
+                                        <div class="site-name">${site.siteName} (${site.siteId})</div>
+                                        <div class="site-stats">
+                                            ${site.patientCount} patients • ${site.country} • ${site.completionRate}% complete
+                                        </div>
+                                    </div>
+                                    <div class="site-score">${site.dataQualityScore}%</div>
+                                </div>
+                            `).join('') : `<div style="text-align: center; color: #888; padding: 20px;">
+                                Sites data: ${data.sites ? 'Found ' + data.sites.length + ' sites' : 'No sites data'}
+                                <br>Debug: ${JSON.stringify(data.sites ? data.sites.slice(0,2) : 'null')}
+                            </div>`}
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2><i class="fas fa-exclamation-triangle"></i> Issues by Category</h2>
+                        <div class="issues-chart">
+                            <div class="issue-category">
+                                <div class="issue-count">${data.issuesByCategory ? data.issuesByCategory['Data Quality'] || 0 : 0}</div>
+                                <div class="issue-label">Data Quality</div>
+                            </div>
+                            <div class="issue-category">
+                                <div class="issue-count">${data.issuesByCategory ? data.issuesByCategory['Verification'] || 0 : 0}</div>
+                                <div class="issue-label">Verification</div>
+                            </div>
+                            <div class="issue-category">
+                                <div class="issue-count">${data.issuesByCategory ? data.issuesByCategory['Safety'] || 0 : 0}</div>
+                                <div class="issue-label">Safety</div>
+                            </div>
+                            <div class="issue-category">
+                                <div class="issue-count">${data.issuesByCategory ? data.issuesByCategory['Lab'] || 0 : 0}</div>
+                                <div class="issue-label">Lab</div>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label"><i class="fas fa-list"></i> Total Open Issues</span>
+                            <span class="metric-value">${data.issues ? data.issues.filter(i => i.status === 'open').length : 0}</span>
                         </div>
                     </div>
 
@@ -545,29 +833,34 @@
                         <h2><i class="fas fa-vial"></i> Lab Metrics</h2>
                         <div class="metric">
                             <span class="metric-label"><i class="fas fa-list-ol"></i> Total Lab Results</span>
-                            <span class="metric-value">${data.lab.totalLabResults}</span>
+                            <span class="metric-value">${data.lab.totalLabResults || data.lab.totalLabResults}</span>
                         </div>
                         <div class="metric">
                             <span class="metric-label"><i class="fas fa-exclamation-triangle"></i> Missing Lab Names</span>
-                            <span class="metric-value">${data.lab.resultsWithMissingLabName}</span>
+                            <span class="metric-value">${data.lab.missingLabNames || data.lab.resultsWithMissingLabName || 0}</span>
                         </div>
                         <div class="metric">
                             <span class="metric-label"><i class="fas fa-ruler"></i> Missing Ranges</span>
-                            <span class="metric-value">${data.lab.resultsWithMissingRanges}</span>
+                            <span class="metric-value">${data.lab.missingRanges || data.lab.resultsWithMissingRanges || 0}</span>
                         </div>
                         <div class="metric">
                             <span class="metric-label"><i class="fas fa-handshake"></i> Reconciliation</span>
-                            <span class="metric-value">${data.lab.reconciliationPercentage}%</span>
+                            <span class="metric-value">${data.lab.reconciliationRate || data.lab.reconciliationPercentage || 0}%</span>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${data.lab.reconciliationPercentage}%"></div>
+                            <div class="progress-fill" style="width: ${data.lab.reconciliationRate || data.lab.reconciliationPercentage || 0}%"></div>
                         </div>
                     </div>
 
                     <div class="card">
                         <h2><i class="fas fa-check-double"></i> Readiness Check</h2>
                         <div class="metric">
-                            <span class="metric-label"><i class="fas fa-clipboard-check"></i> Interim Analysis Ready</span>
+                            <span class="metric-label">
+                                <i class="fas fa-clipboard-check"></i> Interim Analysis Ready
+                                <button class="explain-btn" onclick="showReadinessExplanation()">
+                                    <i class="fas fa-question-circle"></i> Explain
+                                </button>
+                            </span>
                             <span class="metric-value">
                                 <span class="status-indicator ${data.readiness.isReady ? 'status-ready' : 'status-not-ready'}"></span>
                                 ${data.readiness.isReady ? 'YES' : 'NO'}
@@ -593,7 +886,7 @@
                     <div class="card">
                         <h2><i class="fas fa-user-md"></i> Patient Metrics</h2>
                         <div class="patient-list">
-                            ${data.patients.map(p => `
+                            ${data.patients.slice(0, 10).map(p => `
                                 <div class="patient-item">
                                     <div class="metric">
                                         <span class="metric-label"><i class="fas fa-user"></i> Patient ${p.patientId}</span>
@@ -663,6 +956,131 @@
 
         // Auto-refresh every 30 seconds
         setInterval(loadDashboard, 30000);
+
+        // DQI Explanation Modal Functions
+        async function showDQIExplanation() {
+            try {
+                const response = await fetch('/api/explain/dqi');
+                const data = await response.json();
+                
+                document.getElementById('dqiContent').innerHTML = `
+                    <p style="color: #cccccc; margin-bottom: 20px;">${data.description}</p>
+                    
+                    <h3 style="color: #FF8C00; margin: 20px 0 15px 0;">Scoring Criteria</h3>
+                    ${data.criteria.map(criterion => `
+                        <div class="criteria-item">
+                            <div class="criteria-header">
+                                <span class="criteria-name">${criterion.name} (${criterion.weight}%)</span>
+                                <span class="criteria-score">${criterion.currentScore}/${criterion.maxScore}</span>
+                            </div>
+                            <div class="criteria-description">${criterion.description}</div>
+                            <div class="criteria-progress">
+                                <div class="criteria-progress-fill" style="width: ${(criterion.currentScore / criterion.maxScore) * 100}%"></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                    
+                    <h3 style="color: #FF8C00; margin: 20px 0 15px 0;">Calculation Formula</h3>
+                    <div style="background: rgba(255, 140, 0, 0.1); padding: 15px; border-radius: 8px; font-family: monospace; color: #ffffff;">
+                        ${data.calculation}
+                    </div>
+                    
+                    <h3 style="color: #FF8C00; margin: 20px 0 15px 0;">Overall Score: ${data.overallScore}%</h3>
+                    
+                    <h4 style="color: #FF8C00; margin: 15px 0 10px 0;">Score Interpretation</h4>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                        <div style="background: rgba(0, 255, 0, 0.1); padding: 10px; border-radius: 8px;">
+                            <strong style="color: #00ff00;">Excellent:</strong> ${data.interpretation.excellent}
+                        </div>
+                        <div style="background: rgba(255, 255, 0, 0.1); padding: 10px; border-radius: 8px;">
+                            <strong style="color: #ffff00;">Good:</strong> ${data.interpretation.good}
+                        </div>
+                        <div style="background: rgba(255, 140, 0, 0.1); padding: 10px; border-radius: 8px;">
+                            <strong style="color: #FF8C00;">Fair:</strong> ${data.interpretation.fair}
+                        </div>
+                        <div style="background: rgba(255, 0, 0, 0.1); padding: 10px; border-radius: 8px;">
+                            <strong style="color: #ff0000;">Poor:</strong> ${data.interpretation.poor}
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('dqiModal').style.display = 'block';
+            } catch (error) {
+                console.error('Error loading DQI explanation:', error);
+            }
+        }
+
+        function closeDQIModal() {
+            document.getElementById('dqiModal').style.display = 'none';
+        }
+
+        // Readiness Explanation Modal Functions
+        async function showReadinessExplanation() {
+            try {
+                const response = await fetch('/api/explain/readiness');
+                const data = await response.json();
+                
+                document.getElementById('readinessContent').innerHTML = `
+                    <p style="color: #cccccc; margin-bottom: 20px;">${data.description}</p>
+                    
+                    <h3 style="color: #FF8C00; margin: 20px 0 15px 0;">Readiness Criteria</h3>
+                    ${data.criteria.map(criterion => `
+                        <div class="criteria-item">
+                            <div class="criteria-header">
+                                <span class="criteria-name">${criterion.name}</span>
+                                <span class="criteria-score ${criterion.status === 'met' ? 'status-ready' : 'status-not-ready'}" style="color: ${criterion.status === 'met' ? '#00ff00' : '#ff0000'};">
+                                    ${criterion.current}${criterion.unit} / ${criterion.required}${criterion.unit}
+                                    <i class="fas fa-${criterion.status === 'met' ? 'check' : 'times'}"></i>
+                                </span>
+                            </div>
+                            <div class="criteria-description">${criterion.description}</div>
+                            <div class="criteria-progress">
+                                <div class="criteria-progress-fill" style="width: ${Math.min((criterion.current / criterion.required) * 100, 100)}%; background: ${criterion.status === 'met' ? 'linear-gradient(90deg, #00ff00, #00cc00)' : 'linear-gradient(90deg, #ff8c00, #ff6b00)'}"></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                    
+                    <h3 style="color: #FF8C00; margin: 20px 0 15px 0;">Overall Readiness: ${data.overallReadiness}%</h3>
+                    <div style="color: ${data.isReady ? '#00ff00' : '#ff0000'}; font-size: 1.2rem; font-weight: bold; margin-bottom: 20px;">
+                        <i class="fas fa-${data.isReady ? 'check-circle' : 'times-circle'}"></i>
+                        ${data.isReady ? 'READY FOR INTERIM ANALYSIS' : 'NOT READY FOR INTERIM ANALYSIS'}
+                    </div>
+                    
+                    ${data.blockers.length > 0 ? `
+                        <h4 style="color: #ff0000; margin: 15px 0 10px 0;"><i class="fas fa-exclamation-triangle"></i> Blockers</h4>
+                        <ul style="color: #cccccc; margin-left: 20px;">
+                            ${data.blockers.map(blocker => `<li style="margin: 5px 0;">${blocker}</li>`).join('')}
+                        </ul>
+                    ` : ''}
+                    
+                    <h4 style="color: #FF8C00; margin: 15px 0 10px 0;"><i class="fas fa-lightbulb"></i> Recommendations</h4>
+                    <ul style="color: #cccccc; margin-left: 20px;">
+                        ${data.recommendations.map(rec => `<li style="margin: 5px 0;">${rec}</li>`).join('')}
+                    </ul>
+                `;
+                
+                document.getElementById('readinessModal').style.display = 'block';
+            } catch (error) {
+                console.error('Error loading readiness explanation:', error);
+            }
+        }
+
+        function closeReadinessModal() {
+            document.getElementById('readinessModal').style.display = 'none';
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const dqiModal = document.getElementById('dqiModal');
+            const readinessModal = document.getElementById('readinessModal');
+            
+            if (event.target === dqiModal) {
+                dqiModal.style.display = 'none';
+            }
+            if (event.target === readinessModal) {
+                readinessModal.style.display = 'none';
+            }
+        }
 
         // Initialize
         createParticles();
