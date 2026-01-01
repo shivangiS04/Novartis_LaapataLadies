@@ -83,6 +83,10 @@ export declare class ExcelDataParser {
      * Parse all Study 1 Excel files and return comprehensive study data
      */
     parseStudyData(): Promise<ParsedStudyData>;
+    /**
+     * Generate synthetic study data for deployment environments
+     */
+    private generateSyntheticStudyData;
     private getStudyFiles;
     private parseExcelFile;
     private parseEDCMetrics;

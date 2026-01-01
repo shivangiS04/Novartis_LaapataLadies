@@ -30,17 +30,19 @@ const ingestionComponent = new DataIngestionComponent_1.DataIngestionComponent(e
 const metricsEngine = new MetricsCalculationEngine_1.MetricsCalculationEngine();
 const labMetrics = new LabMetricsComponent_1.LabMetricsComponent();
 const readinessComponent = new ReadinessCheckComponent_1.ReadinessCheckComponent();
-// Initialize Excel data parser for Study 1
-const study1Path = path_1.default.join(__dirname, '../../QC Anonymized Study Files/Study 1_CPID_Input Files - Anonymization');
-const excelParser = new ExcelDataParser_1.ExcelDataParser(study1Path);
-// Global study data
+// Initialize Excel data parser for Study 1 (disabled for Vercel deployment)
+// const study1Path = path.join(__dirname, '../../QC Anonymized Study Files/Study 1_CPID_Input Files - Anonymization');
+// const excelParser = new ExcelDataParser(study1Path);
+// Global study data - will use synthetic data for Vercel deployment
 let studyData = null;
 // Load Study 1 data on startup
 async function loadStudyData() {
     try {
-        logger.info('Loading Study 1 data from Excel files...');
-        studyData = await excelParser.parseStudyData();
-        logger.info('Study 1 data loaded successfully', {
+        logger.info('Loading Study 1 synthetic data for Vercel deployment...');
+        // For Vercel deployment, we'll generate synthetic data directly
+        const syntheticParser = new ExcelDataParser_1.ExcelDataParser(''); // Empty path for synthetic mode
+        studyData = await syntheticParser.parseStudyData();
+        logger.info('Study 1 synthetic data loaded successfully', {
             patients: studyData.patients.length,
             sites: studyData.sites.length,
             issues: studyData.issues.length
@@ -321,13 +323,15 @@ app.get('/api/test/sites', (req, res) => {
 app.get('/', (req, res) => {
     res.sendFile(path_1.default.join(__dirname, '../public/index.html'));
 });
-// Start server
-app.listen(port, () => {
-    logger.info(`Clinical Trial Dashboard running at http://localhost:${port}`);
-    logger.info('Dashboard endpoints:');
-    logger.info('  - Main Dashboard: http://localhost:3000');
-    logger.info('  - API Dashboard: http://localhost:3000/api/dashboard');
-    logger.info('  - API Patients: http://localhost:3000/api/patients');
-});
+// Start server (only in non-Vercel environments)
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    app.listen(port, () => {
+        logger.info(`Clinical Trial Dashboard running at http://localhost:${port}`);
+        logger.info('Dashboard endpoints:');
+        logger.info('  - Main Dashboard: http://localhost:3000');
+        logger.info('  - API Dashboard: http://localhost:3000/api/dashboard');
+        logger.info('  - API Patients: http://localhost:3000/api/patients');
+    });
+}
 exports.default = app;
 //# sourceMappingURL=server.js.map

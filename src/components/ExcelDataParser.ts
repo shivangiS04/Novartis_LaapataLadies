@@ -105,6 +105,12 @@ export class ExcelDataParser {
     try {
       logger.info('Starting Study 1 data parsing', { studyPath: this.studyPath });
 
+      // For Vercel deployment or when no path is provided, generate synthetic data
+      if (!this.studyPath || this.studyPath === '') {
+        logger.info('Generating synthetic data for deployment');
+        return this.generateSyntheticStudyData();
+      }
+
       const files = this.getStudyFiles();
       
       // Parse each Excel file
@@ -139,6 +145,65 @@ export class ExcelDataParser {
       logger.error('Failed to parse Study 1 data', error as Error);
       throw error;
     }
+  }
+
+  /**
+   * Generate synthetic study data for deployment environments
+   */
+  private generateSyntheticStudyData(): ParsedStudyData {
+    // Generate synthetic lab metrics
+    const labMetrics: LabMetricsData = {
+      totalLabResults: 300,
+      missingLabNames: 55,
+      missingRanges: 41,
+      reconciliationRate: 82,
+      centralLabResults: 180,
+      localLabResults: 120
+    };
+
+    // Generate synthetic coding status
+    const codingStatus: CodingStatusData = {
+      meddraCoding: {
+        totalTerms: 45,
+        codedTerms: 38,
+        pendingTerms: 7,
+        codingRate: 84
+      },
+      whoCoding: {
+        totalTerms: 32,
+        codedTerms: 29,
+        pendingTerms: 3,
+        codingRate: 91
+      }
+    };
+
+    // Generate synthetic SAE data
+    const saeData: SAEData[] = [];
+    for (let i = 1; i <= 8; i++) {
+      saeData.push({
+        saeId: `SAE_${String(i).padStart(3, '0')}`,
+        patientId: `P${String(Math.floor(Math.random() * 50) + 1).padStart(3, '0')}`,
+        siteId: `SITE${String(Math.floor(Math.random() * 6) + 1).padStart(3, '0')}`,
+        eventTerm: 'Serious Adverse Event',
+        severity: Math.random() > 0.5 ? 'Severe' : 'Moderate',
+        reportedDate: new Date(),
+        reconciliationStatus: Math.random() > 0.3 ? 'complete' : 'pending'
+      });
+    }
+
+    // Generate patients, sites, and issues
+    const patients = this.generatePatientData({}, {}, labMetrics);
+    const sites = this.generateSiteData(patients, {});
+    const issues = this.generateIssuesData([], labMetrics, saeData, codingStatus);
+
+    return {
+      patients,
+      sites,
+      issues,
+      labMetrics,
+      codingStatus,
+      saeData
+    };
   }
 
   private getStudyFiles(): StudyDataFiles {
