@@ -146,21 +146,26 @@ app.get('/api/dashboard', async (req, res) => {
     // Calculate metrics for all patients
     const patientMetrics = patients.map(p => ({
       patientId: p.patientId,
-      ...metricsEngine.calculatePatientMetrics(p, 1)
+      ...metricsEngine.calculatePatientMetrics(p, 5) // 5 expected visits per patient
     }));
 
     // Calculate site metrics
-    const siteMetrics = metricsEngine.calculateSiteMetrics(patients, 'SITE001', 1);
+    const siteMetrics = metricsEngine.calculateSiteMetrics(patients, 'SITE001', 5);
 
     // Calculate trial metrics
-    const trialMetrics = metricsEngine.calculateTrialMetrics(patients, 'STUDY001', 1, 1);
+    const trialMetrics = metricsEngine.calculateTrialMetrics(patients, 'STUDY001', 5, 1);
 
-    // Lab metrics - use real data if available
-    const labReport = studyData?.labMetrics || {
-      totalLabResults: patients.flatMap(p => p.clinicalData.labResults).length,
-      resultsWithMissingLabName: 5,
-      resultsWithMissingRanges: 3,
-      reconciliationPercentage: 92
+    // Lab metrics - calculate from actual patient data
+    const allLabResults = patients.flatMap(p => p.clinicalData.labResults);
+    const labReport = {
+      totalLabResults: allLabResults.length,
+      missingLabNames: allLabResults.filter(lab => !lab.labName || lab.labName === '').length,
+      missingRanges: allLabResults.filter(lab => !lab.referenceRange || (!lab.referenceRange.min && !lab.referenceRange.max)).length,
+      reconciliationRate: allLabResults.length > 0 ? Math.round((1 - (allLabResults.filter(lab => !lab.labName).length / allLabResults.length)) * 100) : 0,
+      // Legacy field names for backward compatibility
+      resultsWithMissingLabName: allLabResults.filter(lab => !lab.labName || lab.labName === '').length,
+      resultsWithMissingRanges: allLabResults.filter(lab => !lab.referenceRange || (!lab.referenceRange.min && !lab.referenceRange.max)).length,
+      reconciliationPercentage: allLabResults.length > 0 ? Math.round((1 - (allLabResults.filter(lab => !lab.labName).length / allLabResults.length)) * 100) : 0
     };
 
     // Readiness check
@@ -205,7 +210,7 @@ app.get('/api/metrics/:patientId', (req, res) => {
     return res.status(404).json({ error: 'Patient not found' });
   }
 
-  const metrics = metricsEngine.calculatePatientMetrics(patient, 1);
+  const metrics = metricsEngine.calculatePatientMetrics(patient, 5);
   return res.json({ patientId: patient.patientId, ...metrics });
 });
 

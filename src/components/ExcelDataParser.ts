@@ -352,22 +352,27 @@ export class ExcelDataParser {
 
   private generateVisitData(patientId: string, visitData: any): any[] {
     const visits: any[] = [];
-    const visitCount = 3 + Math.floor(Math.random() * 3); // 3-5 visits per patient
+    const totalExpectedVisits = 5; // Standard protocol has 5 visits
+    const actualVisitCount = Math.floor(2 + Math.random() * 4); // 2-5 actual visits (some missing)
 
-    for (let v = 1; v <= visitCount; v++) {
+    for (let v = 1; v <= actualVisitCount; v++) {
       const completionPercentage = Math.floor(60 + Math.random() * 40); // 60-100%
-      visits.push({
-        visitId: `V${String(v).padStart(3, '0')}`,
-        patientId,
-        visitType: v === 1 ? 'Baseline' : `Visit ${v}`,
-        scheduledDate: new Date(2024, 0, v * 30),
-        actualDate: Math.random() > 0.2 ? new Date(2024, 0, v * 30 + Math.floor(Math.random() * 7)) : undefined,
-        formStatus: completionPercentage > 80 ? 'completed' : 'in-progress',
-        forms: this.generateFormData(patientId, v),
-        completionPercentage,
-        delayDays: Math.floor(Math.random() * 5),
-        lastUpdated: new Date()
-      });
+      const isMissed = Math.random() > 0.85; // 15% chance of missed visit
+      
+      if (!isMissed) {
+        visits.push({
+          visitId: `V${String(v).padStart(3, '0')}`,
+          patientId,
+          visitType: v === 1 ? 'Baseline' : `Visit ${v}`,
+          scheduledDate: new Date(2024, 0, v * 30),
+          actualDate: Math.random() > 0.2 ? new Date(2024, 0, v * 30 + Math.floor(Math.random() * 7)) : undefined,
+          formStatus: completionPercentage > 80 ? 'completed' : 'in-progress',
+          forms: this.generateFormData(patientId, v),
+          completionPercentage,
+          delayDays: Math.floor(Math.random() * 5),
+          lastUpdated: new Date()
+        });
+      }
     }
 
     return visits;
@@ -392,9 +397,9 @@ export class ExcelDataParser {
       testName,
       value: Math.random() * 100,
       unit: this.getLabUnit(testName),
-      referenceRange: this.getLabReferenceRange(testName),
+      referenceRange: Math.random() > 0.15 ? this.getLabReferenceRange(testName) : null, // 15% missing ranges
       abnormalFlag: Math.random() > 0.8,
-      labName: Math.random() > 0.1 ? 'Central Lab' : '', // Some missing lab names
+      labName: Math.random() > 0.2 ? 'Central Lab' : '', // 20% missing lab names
       resultDate: new Date(),
       reportedDate: new Date(),
       dataQualityIssues: []

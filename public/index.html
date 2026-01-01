@@ -723,10 +723,6 @@
                 
                 const data = await response.json();
                 
-                console.log('Dashboard data received:', data);
-                console.log('Sites data:', data.sites);
-                console.log('Sites length:', data.sites ? data.sites.length : 'undefined');
-                
                 dashboard.innerHTML = `
                     <div class="card">
                         <h2><i class="fas fa-chart-pie"></i> Trial Overview</h2>
@@ -770,10 +766,7 @@
                                     </div>
                                     <div class="site-score">${site.dataQualityScore}%</div>
                                 </div>
-                            `).join('') : `<div style="text-align: center; color: #888; padding: 20px;">
-                                Sites data: ${data.sites ? 'Found ' + data.sites.length + ' sites' : 'No sites data'}
-                                <br>Debug: ${JSON.stringify(data.sites ? data.sites.slice(0,2) : 'null')}
-                            </div>`}
+                            `).join('') : '<div style="text-align: center; color: #888; padding: 20px;">Loading site data...</div>'}
                         </div>
                     </div>
 
