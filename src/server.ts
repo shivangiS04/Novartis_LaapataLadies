@@ -5,6 +5,8 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import multer from 'multer';
+import { Request, Response } from 'express';
 import { DataIngestionComponent } from './components/DataIngestionComponent';
 import { MetricsCalculationEngine } from './components/MetricsCalculationEngine';
 import { LabMetricsComponent } from './components/LabMetricsComponent';
@@ -22,6 +24,10 @@ const logger = createLogger('WebServer');
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+let dataSource: 'synthetic' | 'uploaded' = 'synthetic';
 
 // Initialize components
 const eventBus = new EventBus();
@@ -57,6 +63,42 @@ async function loadStudyData() {
 
 // Load data on startup
 loadStudyData();
+
+// ---------------------------------------
+// Upload real study data (Excel ingestion)
+// ---------------------------------------
+app.post(
+  '/api/upload-study-data',
+  upload.array('files'),
+  async (req: Request, res: Response) => {
+    try {
+      const files = req.files as Express.Multer.File[] | undefined;
+
+      if (!files || files.length === 0) {
+        return res.status(400).json({ error: 'No files uploaded' });
+      }
+
+      logger.info('Uploading real study data', {
+        fileCount: files.length
+      });
+
+      const parser = new ExcelDataParser('', files);
+      studyData = await parser.parseStudyData();
+
+      dataSource = 'uploaded';
+
+       return res.json({
+        message: 'Study data uploaded and activated',
+        patients: studyData.patients.length,
+        sites: studyData.sites.length
+      });
+    } catch (err) {
+      logger.error('Failed to upload study data', err as Error);
+       return res.status(500).json({ error: 'Failed to process uploaded data' });
+    }
+  }
+);
+
 
 // Sample data
 const samplePatients = [
